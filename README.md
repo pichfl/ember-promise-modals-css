@@ -97,82 +97,11 @@ order to trigger the "close modal" action. It can be called like so:
 this.close(); // or this.args.close() in Glimmer components
 ```
 
-Animation
-------------------------------------------------------------------------------
 
-### Custom animation
 
-EPM uses [ember-animated](https://github.com/ember-animation/ember-animated) to
-animate the modals.
 
-You can override the default easing function using libraries like [d3-ease](https://github.com/d3/d3-ease).
-To do so, you must override the [`modalsTransition` method from the `modals` service](https://github.com/simplabs/ember-promise-modals/blob/master/addon/services/modals.js#L19)
-in your own app.
-
-Create a new `modals` service like:
-
-```javascript
-// app/services/modals.js
-
-import { easeSinInOut, easeCubicOut } from 'd3-ease';
-import move from 'ember-animated/motions/move';
-import ModalServices from 'ember-promise-modals/services/modals';
-
-export default ModalServices.extend({
-  *modalsTransition({ insertedSprites, keptSprites, removedSprites }) {
-    insertedSprites.forEach(sprite => {
-      sprite.startAtPixel({ y: -window.innerHeight });
-      move(sprite, { easing: easeCubicOut });
-    });
-
-    keptSprites.forEach(sprite => {
-      move(sprite);
-    });
-
-    removedSprites.forEach(sprite => {
-      sprite.endAtPixel({ y: -window.innerHeight });
-      move(sprite, { easing: easeSinInOut });
-    });
-  },
-});
 ```
 
-### Transition direction
-
-By default, the EPM modal appears from top-to-bottom. You can change that to
-bottom-to-up for example, by passing a custom value on EPM invocation:
-
-```javascript
-this.modals.open('file-preview', {
-  reverseAnimation: true
-});
-```
-
-And update your service:
-
-```javascript
-insertedSprites.forEach(sprite => {
-  if (sprite.owner.value._data.reverseAnimation) {
-    sprite.startAtPixel({ y: window.innerHeight });
-  } else {
-    sprite.startAtPixel({ y: -window.innerHeight });
-  }
-  move(sprite, { easing: easeCubicOut });
-});
-
-// ...
-
-removedSprites.forEach(sprite => {
-  if (sprite.owner.value._data.reverseAnimation) {
-    sprite.endAtPixel({ y: window.innerHeight });
-  } else {
-    sprite.endAtPixel({ y: -window.innerHeight });
-  }
-  move(sprite, { easing: easeSinInOut });
-});
-```
-
-You can find other ways to create custom animations in the [ember-animated documentation](https://ember-animation.github.io/ember-animated/docs/transitions#custom)
 
 
 Accessibility

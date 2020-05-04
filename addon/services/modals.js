@@ -2,10 +2,6 @@ import { A } from '@ember/array';
 import { alias } from '@ember/object/computed';
 import Service from '@ember/service';
 
-import { easeOut, easeIn } from 'ember-animated/easings/cosine';
-import move from 'ember-animated/motions/move';
-import fade from 'ember-animated/transitions/fade';
-
 import Modal from '../modal';
 
 export default Service.extend({
@@ -13,26 +9,6 @@ export default Service.extend({
   top: alias('_stack.lastObject'),
 
   focusTrapOptions: null,
-
-  backdropDuration: 600,
-  backdropTransition: fade,
-
-  modalsDuration: 250,
-  *modalsTransition({ insertedSprites, keptSprites, removedSprites }) {
-    insertedSprites.forEach(sprite => {
-      sprite.startAtPixel({ y: -window.innerHeight });
-      move(sprite, { easing: easeOut });
-    });
-
-    keptSprites.forEach(sprite => {
-      move(sprite);
-    });
-
-    removedSprites.forEach(sprite => {
-      sprite.endAtPixel({ y: -window.innerHeight });
-      move(sprite, { easing: easeIn });
-    });
-  },
 
   init() {
     this._super(...arguments);
@@ -49,6 +25,7 @@ export default Service.extend({
 
   open(name, data) {
     let modal = new Modal(this, name, data);
+
     this._stack.pushObject(modal);
 
     if (this._stack.length === 1) {

@@ -1,21 +1,12 @@
-{{#animated-if
-  this.modals.count
-  use=this.modals.backdropTransition
-  duration=this.modals.backdropDuration
-}}
+{{#if this.modals.count}}
   <div
     class="epm-backdrop"
     tabindex="-1"
     role="presentation"
     aria-hidden="true"
   ></div>
-{{/animated-if}}
+{{/if}}
 
-{{#animated-each
-  this.modals._stack
-  use=this.modals.modalsTransition
-  duration=this.modals.modalsDuration
-  as |modal|
-}}
-  <EpmModal @modal={{modal}}/>
-{{/animated-each}}
+{{#each this.modals._stack as |modal|}}
+  <EpmModal @modal={{modal}} />
+{{/each}}
