@@ -14,15 +14,15 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    let { clickOutsideDeactivates } = this.modals;
+    let { focusTrapOptions: options } = this.modals;
 
-    this.focusTrap = createFocusTrap(this.element, {
-      clickOutsideDeactivates,
-
+    options = Object.assign({}, options, {
       onDeactivate: () => {
         this.modal.close();
       },
     });
+
+    this.focusTrap = createFocusTrap(this.element, options);
 
     this.focusTrap.activate();
   },

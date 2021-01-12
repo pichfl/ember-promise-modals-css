@@ -12,7 +12,7 @@ export default Service.extend({
   count: alias('_stack.length'),
   top: alias('_stack.lastObject'),
 
-  clickOutsideDeactivates: true,
+  focusTrapOptions: null,
 
   backdropDuration: 600,
   backdropTransition: fade,
@@ -37,6 +37,10 @@ export default Service.extend({
   init() {
     this._super(...arguments);
     this._stack = A([]);
+
+    this.focusTrapOptions = this.focusTrapOptions || {
+      clickOutsideDeactivates: true,
+    };
   },
 
   willDestroy() {
