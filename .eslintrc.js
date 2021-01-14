@@ -82,6 +82,10 @@ module.exports = {
         alphabetize: { order: 'asc', ignoreCase: true },
       },
     ],
+
+    'ember/no-classic-components': 'off',
+    'ember/no-classic-classes': 'off',
+    'ember/no-component-lifecycle-hooks': 'off',
   },
   overrides: [
     // node files

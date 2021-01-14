@@ -1,12 +1,12 @@
-{{#if this.modals.count}}
-  <div
-    class="epm-backdrop"
-    tabindex="-1"
-    role="presentation"
-    aria-hidden="true"
-  ></div>
-{{/if}}
+<div
+  class="epm-backdrop {{unless this.hasModals "epm-out"}}"
+  tabindex="-1"
+  role="presentation"
+  aria-hidden="true"
+></div>
 
 {{#each this.modals._stack as |modal|}}
-  <EpmModal @modal={{modal}} />
+  <div class="epm-modal-container">
+    <EpmModal @modal={{modal}} />
+  </div>
 {{/each}}
